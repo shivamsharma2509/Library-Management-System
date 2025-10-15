@@ -3,8 +3,7 @@ import Papa from 'papaparse';
 import { Student } from '../types';
 
 // Your Google Sheets CSV URL
-const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTLuwG2m6ACFc_ChKtyAR16e_9BU1mM7W9FPZvJY9Oi4C5g_RNiNThVhVPTrdC1vGdADw0BeaEJ2_pV/pub?output=csv';
-
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSstouaU3dnPrtwsbEupHRyxNgvWGXl1KQAy6BVGvilogiRvwNtTbpVyu9jMRihKoMYe8m2Iv7nUYUX/pub?output=csv';
 export interface CSVStudent {
   Name: string;
   email: string;
