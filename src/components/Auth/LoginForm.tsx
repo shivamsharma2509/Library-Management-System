@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { BookOpen, Eye, EyeOff, LogIn } from 'lucide-react';
-import { login, LoginCredentials } from '../../services/authService';
+import React, { useState, useEffect } from 'react';
+import { BookOpen, Eye, EyeOff, LogIn, Info } from 'lucide-react';
+import { login, LoginCredentials, clearAllCredentials, initializeAuth, getDefaultCredentials } from '../../services/authService';
 
 interface LoginFormProps {
   onLogin: () => void;
@@ -15,6 +15,12 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, onSwitchToRegister }) =>
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const defaultCreds = getDefaultCredentials();
+
+  useEffect(() => {
+    clearAllCredentials();
+    initializeAuth();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,6 +44,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, onSwitchToRegister }) =>
     }));
   };
 
+  const fillDefaultCredentials = () => {
+    setCredentials({
+      username: defaultCreds.username,
+      password: defaultCreds.password,
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-blue-100 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md">
@@ -50,6 +63,28 @@ const LoginForm: React.FC<LoginFormProps> = ({ onLogin, onSwitchToRegister }) =>
           </div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h1>
           <p className="text-gray-600">Sign in to your library management system</p>
+        </div>
+
+        {/* Default Credentials Info */}
+        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+          <div className="flex items-start space-x-3">
+            <Info className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+            <div className="flex-1">
+              <h3 className="text-sm font-medium text-blue-900 mb-2">Default Login Credentials</h3>
+              <div className="text-sm text-blue-800 space-y-1">
+                <p><span className="font-medium">Username:</span> {defaultCreds.username}</p>
+                <p><span className="font-medium">Email:</span> {defaultCreds.email}</p>
+                <p><span className="font-medium">Password:</span> {defaultCreds.password}</p>
+              </div>
+              <button
+                type="button"
+                onClick={fillDefaultCredentials}
+                className="mt-3 text-sm text-blue-700 hover:text-blue-900 font-medium underline"
+              >
+                Click here to auto-fill
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Error Message */}
